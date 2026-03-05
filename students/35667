@@ -1,0 +1,127 @@
+# Task 1 – Event Driven Architecture Example
+
+## Scenario: Office Building Fire Safety System
+
+### What is Event Driven Architecture?
+
+Event Driven Architecture (EDA) is a system design where components communicate by sending and reacting to **events**.  
+An event represents something that happened in the system.
+
+Instead of calling each other directly, components wait for events and react when they appear.
+
+---
+
+## Main Elements of the System
+
+### 1. Event
+
+An **event** is a signal that something happened.
+
+Examples in this system:
+- SmokeDetected
+- HighTemperature
+- EmergencyButtonPressed
+
+Example:
+
+SmokeDetected (Floor 2, Room 214)
+
+---
+
+### 2. Event Producer
+
+Event producers are devices that **generate events**.
+
+Examples:
+
+| Producer | Description |
+|--------|-------------|
+| Smoke Sensor | Detects smoke in a room |
+| Heat Detector | Measures temperature level |
+| Alarm Button | Allows people to manually trigger alarm |
+
+When smoke is detected, the **Smoke Sensor** produces the event:
+
+SmokeDetected
+
+---
+
+### 3. Event Channel
+
+The **event channel** is responsible for delivering events to other parts of the system.
+
+Example implementations:
+- Event Bus
+- Message Queue
+- Central Fire Control Panel
+
+The channel receives events and forwards them to systems that are subscribed.
+
+---
+
+### 4. Event Handlers
+
+Event handlers are components that react to events.
+
+| Handler | Action |
+|-------|--------|
+| Alarm System | Activates sirens and warning lights |
+| Sprinkler System | Releases water |
+| Notification Service | Sends alert to firefighters |
+| Elevator Controller | Stops elevators |
+| Door Control System | Unlocks emergency exits |
+
+Each handler listens for specific events and performs its own task.
+
+---
+
+## Event Processing Example
+
+1. Smoke appears in a meeting room.
+2. Smoke sensor detects it.
+3. Event **SmokeDetected** is created.
+4. Event is sent through the event channel.
+5. Multiple systems react at the same time.
+
+Result:
+- Alarm sounds in the building
+- Sprinklers activate
+- Fire department receives notification
+- Elevators stop operating
+- Emergency doors unlock
+
+---
+
+## Simple Event Flow Diagram
+
+Smoke Sensor  
+↓  
+Event: SmokeDetected  
+↓  
+Event Channel  
+↓  
+Handlers react:
+
+- Alarm System  
+- Sprinklers  
+- Notification Service  
+- Elevator Control  
+- Door System  
+
+---
+
+## Why Event Driven Architecture is Useful
+
+Advantages:
+
+- Systems are independent from each other
+- Easy to extend with new components
+- Faster reaction to important events
+- Better scalability
+
+---
+
+## Summary
+
+This example shows how an **event driven system** can manage emergency situations in a building.  
+Different components react to the same event without directly depending on each other, which makes the system more flexible and reliable.
