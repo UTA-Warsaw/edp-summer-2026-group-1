@@ -1,0 +1,138 @@
+# Event-Driven Architecture Example: Online Shop
+
+## Overview
+
+This document describes a simple event-driven architecture (EDA) for an
+online shop system. The system reacts to events generated during the
+order lifecycle.
+
+------------------------------------------------------------------------
+
+# Architecture Components
+
+## 1. Event Producers
+
+Services that generate events.
+
+Example: - **Order Service** -- publishes `OrderCreated` - **Payment
+Service** -- publishes `PaymentCompleted`
+
+------------------------------------------------------------------------
+
+## 2. Event Broker
+
+A message broker distributes events to interested services.
+
+Possible technologies: - Apache Kafka - RabbitMQ - AWS EventBridge
+
+Responsibilities: - Receive events from producers - Deliver events to
+consumers - Ensure asynchronous communication
+
+------------------------------------------------------------------------
+
+## 3. Events
+
+Events describe something that already happened in the system.
+
+Examples:
+
+### OrderCreated
+
+``` json
+{
+  "event": "OrderCreated",
+  "orderId": 12345,
+  "userId": 987,
+  "items": ["item1", "item2"],
+  "totalPrice": 120
+}
+```
+
+### PaymentCompleted
+
+``` json
+{
+  "event": "PaymentCompleted",
+  "orderId": 12345,
+  "paymentId": "pay_5678",
+  "status": "success"
+}
+```
+
+------------------------------------------------------------------------
+
+## 4. Event Consumers (Handlers)
+
+Services that react to events.
+
+### Payment Service
+
+Consumes: - `OrderCreated`
+
+Action: - processes payment - emits `PaymentCompleted`
+
+------------------------------------------------------------------------
+
+### Warehouse Service
+
+Consumes: - `PaymentCompleted`
+
+Action: - reserves items - prepares shipment
+
+------------------------------------------------------------------------
+
+### Notification Service
+
+Consumes: - `OrderCreated` - `PaymentCompleted` - `OrderShipped`
+
+Action: - sends email or push notifications to users
+
+------------------------------------------------------------------------
+
+### Analytics Service
+
+Consumes: - `OrderCreated`
+
+Action: - updates sales statistics - records business metrics
+
+------------------------------------------------------------------------
+
+# Event Flow
+
+1.  User places an order
+2.  Order Service publishes `OrderCreated`
+3.  Event Broker distributes the event
+4.  Multiple services react independently
+5.  Payment Service publishes `PaymentCompleted`
+6.  Warehouse Service prepares shipment
+
+------------------------------------------------------------------------
+
+# Benefits
+
+-   Loose coupling between services
+-   Easy scalability
+-   Asynchronous communication
+-   Easy addition of new services
+
+------------------------------------------------------------------------
+
+# Simple Flow Diagram
+
+    User
+     ↓
+    Order Service
+     ↓
+    Event: OrderCreated
+     ↓
+    Event Broker
+     ├─ Payment Service
+     ├─ Notification Service
+     └─ Analytics Service
+
+    Payment Service
+     ↓
+    Event: PaymentCompleted
+     ↓
+    Event Broker
+     └─ Warehouse Service
